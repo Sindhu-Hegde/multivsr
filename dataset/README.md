@@ -18,7 +18,33 @@ To download the videos, run the following commands:
 python download.py --file=filelists/ytids.txt --video_root=<dataset-path>
 ```
 
+Once all the videos are downloaded, you will have full-length videos in a single folder:
+
+```
+video_root (path of the downloaded videos) 
+├── *.mp4 (videos)
+```
+
+Download the metadata and the train-val-test csvs from `huggingface-datasets` 🤗:
+
+```python
+from datasets import load_dataset
+
+# Login using e.g. `huggingface-cli login` to access this dataset
+ds = load_dataset("sindhuhegde/multivsr")
+```
+
 # Preprocess the videos using the metadata
 
-This section will be updated soon with detailed instructions on how to preprocess the downloaded videos using the provided metadata.
+```bash
+python preprocess.py --videos_folder <dataset-path> --data_root <final-preprocessed-data-root> --temp_dir /folder/to/save/tmp/files
+```
+
+Once preprocessed, you should have the video clips (`.mp4`) and the transcript (`.txt`) files in the following structure:
+```
+data_root (path of the pre-processed videos) 
+├── list of video-ids
+│ ├── *.mp4 (extracted face track video for each sample)
+|	├── *.txt (full transcript for each clip)
+```
 
