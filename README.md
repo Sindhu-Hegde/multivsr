@@ -25,7 +25,7 @@ We introduce MultiVSR - a large-scale dataset for multilingual visual speech rec
 
 ## Dataset
 
-Refer to the [dataset section](https://github.com/Sindhu-Hegde/multivsr/tree/main/dataset) for details on downloading and pre-processing the data.
+Refer to the [dataset section](https://github.com/Sindhu-Hegde/multivsr/tree/master/dataset) for details on downloading and pre-processing the data.
 
 ## Updates
 
