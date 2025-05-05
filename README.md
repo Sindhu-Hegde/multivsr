@@ -27,6 +27,10 @@ We introduce **MultiVSR** - a large-scale dataset for multilingual visual speech
 
 Refer to the [dataset section](https://github.com/Sindhu-Hegde/multivsr/tree/master/dataset) for details on downloading and pre-processing the data.
 
+## Extracting features
+
+We only train the transformer head on top of pre-trained VTP features. Extract the VTP features using the [official VTP code](https://github.com/prajwalkr/vtp?tab=readme-ov-file#feature-extraction). Use the feature extractor pre-trained with `LRS2 + LRS3 + MVLRS + LRS3v2`. 
+
 ## Updates
 
 Thank you for visiting, we appreciate your interest in our work! We plan to release the inference script along with the trained models soon, likely within the next few weeks. Until then, stay tuned and watch the repository for updates.
