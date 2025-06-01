@@ -18,7 +18,51 @@ To download the videos, run the following commands:
 python download.py --file=filelists/ytids.txt --video_root=<dataset-path>
 ```
 
-# Preprocess the videos using the metadata
+Once all the videos are downloaded, you will have full-length videos in a single folder:
 
-This section will be updated soon with detailed instructions on how to preprocess the downloaded videos using the provided metadata.
+```
+video_root (path of the downloaded videos) 
+├── *.mp4 (videos)
+```
+
+Download the metadata and the train-val-test csvs from `huggingface-datasets` 🤗:
+
+```bash
+python download_metadata.py --save_folder /path/to/data/root
+```
+
+This downloads 5 CSV files containing the exact train-val-test crops used in the MultiVSR paper. It also downloads a `multivsr.tar` that contains everything you need to preprocess the downloaded full-length videos
+
+Extract it using the following command:
+
+```bash
+cd /path/to/data/root
+tar -xf multivsr.tar
+```
+
+You should get a folder structure like this:
+
+```
+data_root/multivsr
+├── list of video-ids (11 character YouTube IDs)
+├── ├── *.txt (transcript with word timings)
+├── ├── *.pckl (face track data to create clips)
+
+```
+
+# Preprocess the videos using the face track metadata
+
+```bash
+python preprocess.py --videos_folder <dataset-path> --data_root data_root/multivsr --temp_dir /folder/to/save/tmp/files
+```
+
+Once preprocessed, you should have the video clips (`.mp4`) and the audio files (`.wav`) files in the same folders:
+```
+data_root (path of the pre-processed videos) 
+├── list of video-ids
+├── ├── *.txt (transcript with word timings)
+├── ├── *.pckl (face track data to create clips)
+├── ├── *.mp4 (face track clips)
+├── ├── *.wav (speech of each face track clip)
+```
 
