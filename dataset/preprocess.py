@@ -6,6 +6,7 @@ import pickle
 import subprocess
 from scipy import signal
 from glob import glob
+from shutil import copy
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Preprocess video files for lipreading')
@@ -30,8 +31,21 @@ os.makedirs(args.temp_dir, exist_ok=True)
 
 def crop_video(track):
     videofile = os.path.join(args.videos_folder, track.split('/')[-2] + '.mp4')
+    temp_videofile = os.path.join(args.temp_dir, track.split('/')[-2] + '.mp4')
+
+    command = [
+        'ffmpeg',
+        '-i', videofile,
+        '-r', str(args.frame_rate),
+        '-y',  # Overwrite if exists
+        temp_videofile
+    ]
+    subprocess.call(command)
+    
+    videofile = temp_videofile
+
     if not os.path.exists(videofile):
-        print(f"Video file {videofile} does not exist")
+        raise ValueError(f"temp video file {videofile} could not be created")
         return
     
     cropfile = track.replace('.pckl', '.mp4')
@@ -82,19 +96,19 @@ def crop_video(track):
       vOut.write(cv2.resize(face,(224,224)))
     video_stream.release()
 
-    audiotmp    = os.path.join(args.temp_dir, 'audio.wav')
-    audiostart  = (track['frame'][0]) / args.frame_rate
-    audioend    = (track['frame'][-1]+1) / args.frame_rate
+    # audiotmp    = os.path.join(args.temp_dir, 'audio.wav')
+    # audiostart  = (track['frame'][0]) / args.frame_rate
+    # audioend    = (track['frame'][-1]+1) / args.frame_rate
 
     vOut.release()
 
     # ========== CROP AUDIO FILE ==========
 
-    command = ("ffmpeg -y -i %s -ss %.3f -to %.3f %s" % (os.path.join(args.temp_dir, 'audio.wav'),audiostart,audioend,audiotmp)) 
-    output = subprocess.call(command, shell=True, stdout=None)
+    # command = ("ffmpeg -y -i %s -ss %.3f -to %.3f %s" % (os.path.join(args.temp_dir, 'audio.wav'),audiostart,audioend,audiotmp)) 
+    # output = subprocess.call(command, shell=True, stdout=None)
 
     # ========== COMBINE AUDIO AND VIDEO FILES ==========
-    copy(audiotmp, cropfile.replace('.mp4', '.wav'))
+    # copy(audiotmp, cropfile.replace('.mp4', '.wav'))
     
     print('Written %s'%cropfile)
 
