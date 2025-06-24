@@ -292,7 +292,7 @@ def build_tokenizer(name: str = "gpt2"):
 
 @lru_cache(maxsize=None)
 def get_tokenizer(
-    multilingual: bool,
+    multilingual: bool = True,
     *,
     task: Optional[str] = None,  # Literal["transcribe", "translate", None]
     language: Optional[str] = None,

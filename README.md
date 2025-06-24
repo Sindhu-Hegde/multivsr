@@ -20,6 +20,8 @@ We introduce **MultiVSR** - a large-scale dataset for multilingual visual speech
 
 ## News 🚀🚀🚀
 
+- **[2025.06.24]** 🚀 Real-world video inference code released!
+- **[2025.06.23]** 🧬 Pre-trained checkpoints released!
 - **[2025.04.10]** 🎥 The MultiVSR dataset video list is available: stay tuned for metadata!
 
 
@@ -27,9 +29,30 @@ We introduce **MultiVSR** - a large-scale dataset for multilingual visual speech
 
 Refer to the [dataset section](https://github.com/Sindhu-Hegde/multivsr/tree/master/dataset) for details on downloading and pre-processing the data.
 
+## Checkpoints
+
+Download the checkpoints:
+
+- [Feature extractor](https://www.robots.ox.ac.uk/~vgg/research/vtp-for-lip-reading/checkpoints/extended_train_data/feature_extractor.pth)
+- [Lip reading Transformer](https://www.robots.ox.ac.uk/~vgg/research/multivsr/model.pth)
+
+
 ## Extracting features
 
-We only train the transformer head on top of pre-trained VTP features. Extract the VTP features using the [official VTP code](https://github.com/prajwalkr/vtp?tab=readme-ov-file#feature-extraction). Use the feature extractor pre-trained with `LRS2 + LRS3 + MVLRS + LRS3v2`. 
+We only train the transformer head on top of pre-trained VTP features. Extract the VTP features using the [official VTP code](https://github.com/prajwalkr/vtp?tab=readme-ov-file#feature-extraction). Use the feature extractor pre-trained with `LRS2 + LRS3 + MVLRS + LRS3v2` (same as the visual feature extractor above).
+
+## Inference on a real-world video
+
+The first step to do is to extract and preprocess face tracks using the `run_pipeline.py` script from this repo: [syncnet_python](https://github.com/joonson/syncnet_python). Once you have the face track, you can run the following script to perform lip-reading. 
+
+`python inference.py --ckpt_path <lipreading_transforer_checkpoint> --visual_encoder_ckpt_path <feature_extractor_checkpoint> --fpath /path/to/file`
+
+#### Additional options that can be set if you need:
+`--start start_second --end end_second --lang_id <two letter lang code>`
+
+Setting the language code can lead to more accurate results, as there can be errors in language identification. 
+
+Note: if you get `UnicodeEncodeError`, please run: `export PYTHONIOENCODING=utf-8` in your terminal session.
 
 ## Updates
 
