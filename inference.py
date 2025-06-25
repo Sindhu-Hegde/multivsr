@@ -106,7 +106,7 @@ def read_video(fpath, start=0, end=None):
 		end *= 25
 		end += 4 # to read til end + 3
 	else:
-		end = 1000000000000000000000000000000000 # some large finite num
+		end = 100000000000000000000000000 # some large finite num
 
 	with open(fpath, 'rb') as f:
 		video_stream = VideoReader(f, width=160, height=160)
