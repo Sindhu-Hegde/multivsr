@@ -32,7 +32,7 @@ def load_args():
   parser.add_argument('--feats_root', type=str)
 
   # Preprocessing
-  parser.add_argument('--lang_id', type=str, default='*', help='Language ID, * means all languages')
+  parser.add_argument('--lang_id', type=str, default=None, help='Language ID, * means all languages')
 
   # feature extraction config
   parser.add_argument('--file_list', type=str, help='Regex of video file paths relative to videos_folder')

@@ -53,7 +53,7 @@ def run(faces, model, visual_encoder):
 		
 		with torch.no_grad():
 			with autocast(enabled=args.fp16):
-				start_symbol = [tokenizer.encode(f"<|startoftranscript|>")[0]]
+				start_symbol = [50258]
 				if args.lang_id is not None:
 					start_symbol.append(tokenizer.encode(f"<|{args.lang_id}|>")[0])
 
@@ -61,6 +61,7 @@ def run(faces, model, visual_encoder):
 				out = beam_outs[0][0]
 	
 		pred = tokenizer.decode(out.cpu().numpy().tolist()[:-1]).strip().lower()
+
 		pred = pred.replace("<|transcribe|><|notimestamps|>", " ")
 		lang_id = pred[2:4]
 		pred = pred[7:].strip()
