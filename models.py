@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math, copy, time
 from torch.autograd import Variable
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 from einops.layers.torch import Rearrange
 from einops import rearrange
 from linear_attention_transformer import LinearAttentionTransformer
@@ -190,7 +190,7 @@ def attention(query, key, value, mask=None, dropout=None):
     d_k = query.size(-1)
     scores = torch.matmul(query, key.transpose(-2, -1)) \
              / math.sqrt(d_k)
-    with autocast(enabled=False):
+    with autocast('cuda', enabled=False):
         if mask is not None:
             scores = scores.float()
             # print(scores)
@@ -386,7 +386,7 @@ class CNN_3d(nn.Module):
             Conv3d(512, 512, kernel_size=(1, 3, 3), stride=(1, 2, 2), padding=(0, 1, 1)), # 3, 3
             Conv3d(512, d_model, kernel_size=(1, 3, 3), stride=1, padding=(0, 0, 0)),)
 
-    @autocast()
+    @autocast('cuda')
     def forward(self, faces, mask):
         assert faces.size(3) == 96
         assert faces.size(4) == 96
@@ -438,7 +438,7 @@ class CNN_3d_featextractor(nn.Module):
 
         self.encoder = nn.Sequential(*layers)
 
-    @autocast()
+    @autocast('cuda')
     def forward(self, faces):
         assert faces.size(3) == 96
         assert faces.size(-1) == 96
@@ -477,7 +477,7 @@ class VTP_wrapper(nn.Module):
 
         self.encoder = encoder
 
-    @autocast()
+    @autocast('cuda')
     def forward(self, faces, mask=None):
         faces = self.feat_extrator(faces)
         faces = faces.transpose(1, 2) # (B, T, C, H, W)
@@ -548,7 +548,7 @@ class VTP(nn.Module):
                                     attn_layer_dropout = 0.1, attn_dropout = 0.1))
             cur_dim = dim
 
-    @autocast()
+    @autocast('cuda')
     def forward(self, face_tokens, cls_token=None):
         x = face_tokens
         for i, (patch_maker, transformer) in enumerate(zip(self.patch_projectors, 
