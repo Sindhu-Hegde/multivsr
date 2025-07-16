@@ -11,7 +11,7 @@ from models import build_model, build_visual_encoder
 from dataloader import tokenizer
 from config import load_args
 
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 from search import beam_search
 
 from decord import VideoReader
@@ -52,7 +52,7 @@ def run(faces, model, visual_encoder):
 		encoder_output, src_mask = model.encode(feats, src_mask)
 		
 		with torch.no_grad():
-			with autocast(enabled=args.fp16):
+			with autocast('cuda', enabled=args.fp16):
 				start_symbol = [50258]
 				if args.lang_id is not None:
 					start_symbol.append(tokenizer.encode(f"<|{args.lang_id}|>")[0])
@@ -63,7 +63,9 @@ def run(faces, model, visual_encoder):
 		pred = tokenizer.decode(out.cpu().numpy().tolist()[:-1]).strip().lower()
 
 		pred = pred.replace("<|transcribe|><|notimestamps|>", " ")
-		lang_id = pred[2:4]
+
+		if i==0:
+			lang_id = pred[2:4]
 		pred = pred[7:].strip()
 		preds.append(pred)
 
@@ -95,6 +97,7 @@ def load_models(args):
 		new_s[k] = v
 	
 	visual_encoder.load_state_dict(new_s)
+	print("Models loaded successfully")
 
 	return model, visual_encoder
 
@@ -104,7 +107,7 @@ def read_video(fpath, start=0, end=None):
 
 	if end is not None:
 		end *= 25
-		end += 4 # to read til end + 3
+		end += 4 # to read till end + 3
 	else:
 		end = 100000000000000000000000000 # some large finite num
 
@@ -126,9 +129,11 @@ def read_video(fpath, start=0, end=None):
 
 if __name__ == '__main__':
 	assert args.ckpt_path is not None, 'Specify a trained checkpoint!'
-	print('Loading model...')
+	print('Loading models...')
 	model, visual_encoder = load_models(args)
 
 	faces = read_video(args.fpath, args.start, args.end)
+	print("Input frames: ", faces.shape)
 	
+	print("Running inference...")
 	run(faces, model, visual_encoder)
