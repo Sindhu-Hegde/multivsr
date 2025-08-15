@@ -83,8 +83,10 @@ Note: Step-1 need to be skipped for these sample videos, since they are already 
 | samples/LNjqg9qEu0Y-00008.mp4 | German (de) | weil die Kompetenzen und Kapazitäten zwischen den Geschlechtern unterschiedlich verteilt sind. |
 | samples/RGI2GUiiL6o-00003.mp4 | Portuguese (pt) | magia simbólica específica nesse sentido. Quando um caboclo, por exemplo, vai riscar |
 
+
 Example run:
-`python inference.py --ckpt_path checkpoints/model.pth --visual_encoder_ckpt_path checkpoints/feature_extractor.pth --fpath samples/GBfc471SoSo-00000.mp4`
+```python inference.py --ckpt_path checkpoints/model.pth --visual_encoder_ckpt_path checkpoints/feature_extractor.pth --fpath samples/GBfc471SoSo-00000.mp4
+```
 
 Output of the above run:
 ```
@@ -104,7 +106,11 @@ Transcription: and so this is part of the paradox papers that came out in this w
 ```
 
 ##### Additional options that can be set if needed:
-`--start <start-second> --end <end-second> --lang_id <two-letter-lang-code>`
+```
+--start <start-second> 
+--end <end-second> 
+--lang_id <two-letter-lang-code>
+```
 
 Setting the language code can lead to more accurate results, as errors in language identification can be avoided. 
 
