@@ -43,6 +43,7 @@ source env_multivsr/bin/activate
 pip install -r requirements.txt
 ```
 
+Note: The code has been tested with `Python 3.13.5`
 
 ## Checkpoints
 
