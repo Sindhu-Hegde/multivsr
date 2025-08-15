@@ -21,7 +21,7 @@ We introduce **MultiVSR** - a large-scale dataset for multilingual visual speech
 
 ## News 🚀🚀🚀
 
-- **[2025.08.15]**  🎬 Integrated the video pre-processing code from [SyncNet](https://github.com/joonson/syncnet_python)
+- **[2025.08.15]** 🎬 Integrated the video pre-processing code from [SyncNet](https://github.com/joonson/syncnet_python)
 - **[2025.06.24]** 🔥 Real-world video inference code released
 - **[2025.06.23]** 🧬 Pre-trained checkpoints released
 - **[2025.04.10]** 🎥 The MultiVSR dataset released
