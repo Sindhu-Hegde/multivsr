@@ -69,8 +69,12 @@ def run(faces, model, visual_encoder):
 		pred = pred[7:].strip()
 		preds.append(pred)
 
+	print("-------------------------------------------------------------------")
+	print("-------------------------------------------------------------------")
 	print(f"Language: {lang_id}")
 	print(f"Transcription: {' '.join(preds)}")
+	print("-------------------------------------------------------------------")
+	print("-------------------------------------------------------------------")
 
 
 def load_models(args):
@@ -97,7 +101,7 @@ def load_models(args):
 		new_s[k] = v
 	
 	visual_encoder.load_state_dict(new_s)
-	print("Models loaded successfully")
+	print("Following models are loaded successfully: \n{}\n{}".format(args.ckpt_path, args.visual_encoder_ckpt_path))
 
 	return model, visual_encoder
 
@@ -128,12 +132,16 @@ def read_video(fpath, start=0, end=None):
 	return faces
 
 if __name__ == '__main__':
-	assert args.ckpt_path is not None, 'Specify a trained checkpoint!'
-	print('Loading models...')
+	assert args.ckpt_path is not None, 'Specify a trained lip-reading checkpoint!'
+	assert args.visual_encoder_ckpt_path is not None, 'Specify a trained feature extractor checkpoint!'
+
+	# Load the models
 	model, visual_encoder = load_models(args)
 
+	# Read the video
 	faces = read_video(args.fpath, args.start, args.end)
-	print("Input frames: ", faces.shape)
-	
+	print("Extracted frames from the input video: ", faces.shape)
+
+	# Run the inference and print the results, both language and transcription
 	print("Running inference...")
 	run(faces, model, visual_encoder)

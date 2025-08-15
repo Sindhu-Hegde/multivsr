@@ -21,6 +21,10 @@ scipy==1.16.0
 seaborn==0.11.1
 sentence-transformers==2.2.2
 sentencepiece==0.1.96
+tokenizers==0.21.2
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
 tqdm==4.67.1
 transformers==4.53.1
 youtube-dl==2021.12.17
