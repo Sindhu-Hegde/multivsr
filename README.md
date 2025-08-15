@@ -85,7 +85,8 @@ Note: Step-1 need to be skipped for these sample videos, since they are already 
 
 
 Example run:
-```python inference.py --ckpt_path checkpoints/model.pth --visual_encoder_ckpt_path checkpoints/feature_extractor.pth --fpath samples/GBfc471SoSo-00000.mp4
+```
+python inference.py --ckpt_path checkpoints/model.pth --visual_encoder_ckpt_path checkpoints/feature_extractor.pth --fpath samples/GBfc471SoSo-00000.mp4
 ```
 
 Output of the above run:
